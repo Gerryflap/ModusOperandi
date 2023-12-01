@@ -1,5 +1,10 @@
 package com.lipsum.modusoperandi.objects.rooms;
 
-public class TestRoom {
+import com.badlogic.gdx.math.Vector2;
+import com.lipsum.modusoperandi.objects.entities.TestRoomTable;
 
+public class TestRoom extends AbstractRoom {
+    public TestRoom() {
+        addEntity(new TestRoomTable(new Vector2(100, 100)));
+    }
 }

@@ -1,9 +1,19 @@
 package com.lipsum.modusoperandi.objects.rooms;
 
-import com.lipsum.modusoperandi.objects.entities.Entity;
+/**
+ * This enum will contain all rooms
+ */
+public enum Room {
+    TEST_ROOM(new TestRoom());
 
-public abstract class Room {
-    protected void addEntity(Entity entity) {
 
+    private final AbstractRoom room;
+
+    Room(AbstractRoom room) {
+        this.room = room;
+    }
+
+    public AbstractRoom getRoom() {
+        return room;
     }
 }
