@@ -1,4 +1,4 @@
-package com.lipsum.modusoperandi.events;
+package com.lipsum.modusoperandi.event;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class EventQueue {
     private final ConcurrentLinkedQueue<Event> queue = new ConcurrentLinkedQueue<>();
     private final Set<EventConsumer> consumers = new HashSet<>();
-    public static final EventQueue instance = new EventQueue();
+    private static final EventQueue instance = new EventQueue();
 
     public void invoke(Event event) {
         queue.add(event);
@@ -35,4 +35,9 @@ public class EventQueue {
     public void addConsumer(EventConsumer eventConsumer) {
         consumers.add(eventConsumer);
     }
+
+    public static EventQueue getInstance() {
+        return EventQueue.instance;
+    }
+
 }
