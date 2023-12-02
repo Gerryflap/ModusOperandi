@@ -20,6 +20,5 @@ public class IngameOverlayMenu extends Menu {
     @Override
     public void draw() {
         super.draw();
-        Player player = PlayerFactory.getInstance().getPlayer();
     }
 }

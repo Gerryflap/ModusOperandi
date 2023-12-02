@@ -7,6 +7,8 @@ import com.lipsum.modusoperandi.objects.collidable.Player;
 import com.lipsum.modusoperandi.objects.rooms.AbstractRoom;
 import com.lipsum.modusoperandi.objects.rooms.Room;
 
+import java.util.ArrayList;
+
 /**
  * The top-level class for all game logic and rendering
  */
@@ -19,12 +21,15 @@ public class WorldManager {
     }
 
     private OrthographicCamera camera = new OrthographicCamera(1920, 1080);
-    private AbstractRoom currentRoom = Room.TEST_ROOM.getRoom();
+    private ArrayList<AbstractRoom> rooms = new ArrayList<>();
+    private int currentRoom = -1;
 
     private Player player = new Player(0, 0);
 
     public void setupGame() {
-
+        System.out.println("Setting up game");
+        this.rooms.add(Room.TEST_ROOM.getRoom());
+        currentRoom = 0;
     }
 
 
@@ -32,7 +37,9 @@ public class WorldManager {
         SpriteBatch batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        currentRoom.render(batch);
+        if (currentRoom >= 0) {
+            rooms.get(currentRoom).render(batch);
+        }
         batch.end();
     }
 }

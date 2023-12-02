@@ -18,9 +18,7 @@ public class MenuManager {
     public static final int NO_MENU = -1;
     public static final int MAIN_MENU = 0;
     public static final int OPTIONS_MENU = 1;
-    public static final int PAUSED_MENU = 2;
-    public static final int INGAME_OVERLAY = 6;
-    public static final int DEATH_MENU = 7;
+    public static final int INGAME_OVERLAY = 2;
 
     private final List<Menu> registeredMenus;
     private int currentMenuId;
@@ -47,7 +45,8 @@ public class MenuManager {
     private void onKeyEvent(Event event) {
         if (event.getEventType() == EventType.KEY_EVENT) {
             if (((KeyEvent) event).getKeyCode() == Input.Keys.ESCAPE && ((KeyEvent) event).isKeyDown()) {
-                EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.PAUSED_MENU));
+//                TODO: Add paused menu?
+//                EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.PAUSED_MENU));
             }
         }
     }
