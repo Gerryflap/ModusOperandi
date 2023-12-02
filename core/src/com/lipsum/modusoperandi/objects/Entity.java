@@ -31,6 +31,7 @@ public abstract class Entity {
     public void afterDraw() {};
 
     public void render(SpriteBatch batch){
+        System.out.println("Rendering " + this.toString());
         batch.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
     }
 

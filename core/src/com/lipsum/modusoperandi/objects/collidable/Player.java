@@ -19,14 +19,14 @@ import com.lipsum.modusoperandi.event.events.*;
  */
 public class Player extends SelfCollidable implements Traversable {
 
-    public static final float BASE_SPEED = 300f;
+    public static final float BASE_SPEED = 1f;
 
     private float speed;
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
 
-    private Animation<TextureRegion> walkAnimation;
+//    private Animation<TextureRegion> walkAnimation;
     private Texture spriteSheet;
     private TextureRegion currentSprite;
     private float animationTime = 0f;
@@ -80,6 +80,7 @@ public class Player extends SelfCollidable implements Traversable {
             dy -= 1;
         }
 
+        // TODO: Normalize diagonals
         super.setVelocity(speed * dx, speed * dy);
 
         /* publish new position to listeners */
@@ -87,7 +88,11 @@ public class Player extends SelfCollidable implements Traversable {
 //            EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
             animationTime += timeDeltaMillis * 0.001;
         }
-        currentSprite = walkAnimation.getKeyFrame(animationTime,true);
+        // TODO: Create walk animation
+//        currentSprite = walkAnimation.getKeyFrame(animationTime,true);
+
+        System.out.println(this.x);
+        System.out.println(this.y);
 
         super.update(timeDeltaMillis);
     }
