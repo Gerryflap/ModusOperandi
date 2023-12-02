@@ -2,13 +2,19 @@ package com.lipsum.modusoperandi;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lipsum.modusoperandi.event.EventQueue;
+import com.lipsum.modusoperandi.ui.IngameOverlayMenu;
 import com.lipsum.modusoperandi.ui.MainMenu;
 import com.lipsum.modusoperandi.ui.MenuManager;
+import com.lipsum.modusoperandi.ui.OptionsMenu;
+
+import java.awt.*;
 
 public class Game extends ApplicationAdapter {
 
@@ -17,7 +23,9 @@ public class Game extends ApplicationAdapter {
 	public Game() {
 		super();
 		menuManager = new MenuManager();
-		menuManager.registerMenu(new MainMenu());
+		menuManager.registerMenu(new MainMenu());				// 0
+		menuManager.registerMenu(new OptionsMenu());			// 1
+		menuManager.registerMenu(new IngameOverlayMenu());		// 2
 	}
 	
 	@Override
@@ -38,7 +46,7 @@ public class Game extends ApplicationAdapter {
 		// Rendering
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
-		GameManager.getInstance().draw();
+		WorldManager.getInstance().render();
 		menuManager.draw();
 	}
 	

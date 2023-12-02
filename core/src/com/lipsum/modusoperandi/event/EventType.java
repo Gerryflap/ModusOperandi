@@ -10,5 +10,6 @@ public enum EventType {
     MOUSE_PRESS_EVENT,
     MOUSE_RELEASE_EVENT,
     MOUSE_MOVE_EVENT,
-    KEY_TYPED
+    KEY_TYPED,
+    COLLISION_EVENT
 }

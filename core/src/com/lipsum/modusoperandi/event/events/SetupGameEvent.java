@@ -1,13 +1,13 @@
 package com.lipsum.modusoperandi.event.events;
 
-import com.lipsum.modusoperandi.GameManager;
+import com.lipsum.modusoperandi.WorldManager;
 import com.lipsum.modusoperandi.event.Event;
 import com.lipsum.modusoperandi.event.EventType;
 
 public class SetupGameEvent implements Event {
 
     public SetupGameEvent() {
-        GameManager.getInstance().setupGame();
+        WorldManager.getInstance().setupGame();
     }
 
     @Override
