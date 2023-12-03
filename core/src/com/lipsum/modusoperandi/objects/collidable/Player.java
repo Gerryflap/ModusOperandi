@@ -12,6 +12,9 @@ import com.lipsum.modusoperandi.event.EventConsumer;
 import com.lipsum.modusoperandi.event.EventQueue;
 import com.lipsum.modusoperandi.event.EventType;
 import com.lipsum.modusoperandi.event.events.*;
+import com.lipsum.modusoperandi.interactions.Interaction;
+import com.lipsum.modusoperandi.interactions.InteractionManager;
+import com.lipsum.modusoperandi.interactions.TestDialogueInteraction;
 
 
 /**
@@ -36,6 +39,8 @@ public class Player extends SelfCollidable implements Traversable {
     private EventConsumer mousePressConsumer;
     private EventConsumer mouseReleaseConsumer;
     private EventConsumer mouseMoveConsumer;
+    private EventConsumer interactionEventConsumer;
+    private EventConsumer keyDownEventConsumer;
 
     public Player(float x, float y) {
         super(65, 125, 50, 50);
@@ -54,17 +59,46 @@ public class Player extends SelfCollidable implements Traversable {
         mouseMoveConsumer = this::onMouseMove;
         EventQueue.getInstance().addConsumer(mouseMoveConsumer);
 
+        interactionEventConsumer = this::onInteractionEvent;
+        EventQueue.getInstance().addConsumer(interactionEventConsumer);
+
+        keyDownEventConsumer = this::onKeyDownEvent;
+        EventQueue.getInstance().addConsumer(keyDownEventConsumer);
+
+
 //        TextureRegion[] walkFrames = TextureRegion.split(spriteSheet, 13, 25)[0];
 //        walkAnimation = new Animation<>(0.2f, walkFrames);
     }
 
+    public void onKeyDownEvent(Event event) {
+        // TODO: Really important we program distinctions later for more interactions and perhaps from other buttons as well
+        if (!(event instanceof KeyEvent)) {
+            return ;
+        }
+        if (InteractionManager.interactionActive) {
+            if (((KeyEvent) event).isKeyDown() && ((KeyEvent) event).getKeyCode() == Input.Keys.E) {
+                EventQueue.getInstance().invoke(new DialogueContinueEvent());
+            }
+            return ;
+        }
+
+        if (((KeyEvent) event).isKeyDown() && ((KeyEvent) event).getKeyCode() == Input.Keys.E) {
+            // TODO: Check if can interact with something at the current moment and return the correct interaction
+            EventQueue.getInstance().invoke(new InteractionEvent(0));
+        }
+    }
+
     @Override
     public void update(float timeDeltaMillis) {
+        if (InteractionManager.interactionActive) {
+            return ;
+        }
         ///////////////////
         // Walking stuff //
         ///////////////////
         float dx = 0;
         float dy = 0;
+
         if (keyHoldWatcher.isKeyHeld(Input.Keys.D) || keyHoldWatcher.isKeyHeld(Input.Keys.RIGHT)) {
             dx += 1;
             lookingLeft = false;
@@ -94,11 +128,21 @@ public class Player extends SelfCollidable implements Traversable {
         super.update(timeDeltaMillis);
     }
 
+    public void onInteractionEvent(Event event) {
+        // Check what we're interacting with
+        if (event instanceof InteractionEvent) {
+            Interaction interaction = new TestDialogueInteraction(0, 0);
+            interaction.handleInteraction();
+        }
+    }
+
     public void onCollisionEvent(CollisionEvent event) {
     }
 
     private void onMousePress(Event event) {
-        this.lastMouseEvent = event;
+        if (event instanceof MouseEvent) {
+            this.lastMouseEvent = event;
+        }
     }
 
     private void onMouseRelease(Event event) {
@@ -106,7 +150,9 @@ public class Player extends SelfCollidable implements Traversable {
     }
 
     private void onMouseMove(Event event) {
-        this.lastMouseEvent = event;
+        if (event instanceof MouseEvent) {
+            this.lastMouseEvent = event;
+        }
     }
 
     public float getSpeed() {
