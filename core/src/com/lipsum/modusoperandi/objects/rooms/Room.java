@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
  * This enum will contain all rooms
  */
 public enum Room {
-    TEST_ROOM(new TestRoom(new Texture("Location/kitchen.png")));
+    TEST_ROOM(new TestRoom(new Texture("Location/kitchen.png"))),
+    KITCHEN(new Kitchen());
 
 
     private final AbstractRoom room;

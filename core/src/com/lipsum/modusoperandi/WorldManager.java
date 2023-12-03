@@ -32,6 +32,7 @@ public class WorldManager {
     public void setupGame() {
         gameActive = true;
         System.out.println("Setting up game");
+        this.rooms.add(Room.KITCHEN.getRoom());
         this.rooms.add(Room.TEST_ROOM.getRoom());
         currentRoom = 0;
         previousTime = System.currentTimeMillis();
