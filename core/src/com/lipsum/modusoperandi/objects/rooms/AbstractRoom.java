@@ -32,7 +32,9 @@ public abstract class AbstractRoom {
 
     public void loadBackgroundTexture(Texture texture) {
         backgroundTexture = texture;
-        backgroundSprite =new Sprite(backgroundTexture);
+        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite.setOrigin(backgroundSprite.getWidth(), backgroundSprite.getHeight() / 2);
+        backgroundSprite.setScale(2);
     }
 
     public void render(SpriteBatch batch) {

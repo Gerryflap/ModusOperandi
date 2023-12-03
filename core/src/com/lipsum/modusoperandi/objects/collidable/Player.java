@@ -19,7 +19,7 @@ import com.lipsum.modusoperandi.event.events.*;
  */
 public class Player extends SelfCollidable implements Traversable {
 
-    public static final float BASE_SPEED = 1f;
+    public static final float BASE_SPEED = 300f;
 
     private float speed;
 
@@ -90,9 +90,6 @@ public class Player extends SelfCollidable implements Traversable {
         }
         // TODO: Create walk animation
 //        currentSprite = walkAnimation.getKeyFrame(animationTime,true);
-
-        System.out.println(this.x);
-        System.out.println(this.y);
 
         super.update(timeDeltaMillis);
     }

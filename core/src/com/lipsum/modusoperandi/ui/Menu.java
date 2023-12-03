@@ -1,9 +1,16 @@
 package com.lipsum.modusoperandi.ui;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class Menu {
     protected Stage stage;
+    protected Texture mainMenuBackground;
+
+    // TODO: Add visual feedback for which buttons are selected
+    protected Texture buttonBackground;
+    protected Texture buttonBackgroundActive;
 
     public abstract void create();
 
@@ -12,6 +19,12 @@ public abstract class Menu {
     }
 
     public void draw() {
+        if (mainMenuBackground != null) {
+            SpriteBatch batch = new SpriteBatch();
+            batch.begin();
+            batch.draw(mainMenuBackground, 0, 0);
+            batch.end();
+        }
         stage.draw();
     }
 

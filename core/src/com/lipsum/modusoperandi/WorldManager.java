@@ -45,6 +45,7 @@ public class WorldManager {
         // Update
         long newTime = System.currentTimeMillis();
         long deltaTimeMillis = newTime - previousTime;
+        previousTime = newTime;
 
         SpriteBatch batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
