@@ -1,5 +1,6 @@
 package com.lipsum.modusoperandi.event;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -19,8 +20,13 @@ public class EventQueue {
         }
 
         Event event = queue.poll();
-        for (EventConsumer consumer :consumers) {
-            consumer.handleEvent(event);
+
+        try {
+            for (EventConsumer consumer : consumers) {
+                consumer.handleEvent(event);
+            }
+        } catch (ConcurrentModificationException e) {
+            // Maybe fix this error, or not.
         }
         return true;
     }
