@@ -1,9 +1,11 @@
 package com.lipsum.modusoperandi.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 public class IngameOverlayMenu extends Menu {
 
     protected Texture dialogueBoxTexture;
+    protected Sprite dialogueBoxSprite;
     private EventConsumer dialogueEventConsumer;
     private EventConsumer dialogueContinueEventConsumer;
     private ArrayList<DialogueItem> dialogueItems;
@@ -42,6 +45,9 @@ public class IngameOverlayMenu extends Menu {
         Gdx.input.setInputProcessor(InputHandler.getInstance());
 
         dialogueBoxTexture = new Texture("dialogue_box.png");
+        dialogueBoxSprite = new Sprite(dialogueBoxTexture);
+        dialogueBoxSprite.setX(-1000);
+        dialogueBoxSprite.setY(-500);
 
         dialogueEventConsumer = this::onDialogueEvent;
         EventQueue.getInstance().addConsumer(dialogueEventConsumer);
@@ -83,40 +89,31 @@ public class IngameOverlayMenu extends Menu {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(Camera camera) {
+        super.draw(camera);
 
         SpriteBatch batch = new SpriteBatch();
         batch.begin();
-        batch.draw(dialogueBoxTexture, 0, 0);
+        batch.setProjectionMatrix(camera.combined);
 
+//        dialogueBoxSprite.draw(batch);
         if (activeDialogueItem != null) {
-            VerticalGroup verticalGroup = new VerticalGroup();
 
-            Label.LabelStyle labelStyle = new Label.LabelStyle();
-            labelStyle.fontColor = Color.WHITE;
 
             BitmapFont fontLarge = new BitmapFont();
-            fontLarge.getData().setScale(2);
-            labelStyle.font = fontLarge;
-            Label speaker = new Label(this.activeDialogueItem.speaker.toString(), labelStyle);
-            verticalGroup.addActor(speaker);
+            fontLarge.getData().setScale(4);
+            fontLarge.draw(batch, this.activeDialogueItem.speaker.toString(), -600, -300);
+            Texture speakIconTexture = new Texture(this.activeDialogueItem.speaker.speakerIconPath);
+            Sprite speakerIconSprite = new Sprite(speakIconTexture);
+            speakerIconSprite.setX(-850);
+            speakerIconSprite.setY(-420);
+            speakerIconSprite.draw(batch);
 
-            Label dialogueText = new Label(this.activeDialogueItem.dialogueText, labelStyle);
-            verticalGroup.addActor(dialogueText);
-
-
-            // TODO: Place nicely
-            verticalGroup.setPosition(
-                    Gdx.graphics.getWidth() * 0.4f,
-                    Gdx.graphics.getHeight() * 0.45f + verticalGroup.getPrefHeight() * 0.25f
-            );
-
-            stage.addActor(verticalGroup);
-            stage.draw();
+            fontLarge.draw(batch, this.activeDialogueItem.dialogueText, -670, -400);
         }
 
         batch.end();
+
     }
 
 

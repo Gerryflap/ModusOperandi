@@ -1,5 +1,6 @@
 package com.lipsum.modusoperandi;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lipsum.modusoperandi.factories.EntityFactory;
@@ -20,7 +21,6 @@ public class WorldManager {
         return instance;
     }
 
-    private OrthographicCamera camera = new OrthographicCamera(1920, 1080);
     private ArrayList<AbstractRoom> rooms = new ArrayList<>();
     private int currentRoom = -1;
 
@@ -38,7 +38,7 @@ public class WorldManager {
     }
 
 
-    public void render() {
+    public void render(Camera camera) {
         if (!gameActive) return;
 
 
@@ -48,8 +48,8 @@ public class WorldManager {
         previousTime = newTime;
 
         SpriteBatch batch = new SpriteBatch();
-        batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         if (currentRoom >= 0) {
             rooms.get(currentRoom).render(batch);
         }
@@ -57,7 +57,6 @@ public class WorldManager {
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(deltaTimeMillis));
         EntityFactory.getInstance().getAllManagedObjects()
                 .sorted((e1, e2) -> Float.compare(e2.getY(), e1.getY())).forEach(e -> e.render(batch));
-
         batch.end();
     }
 }

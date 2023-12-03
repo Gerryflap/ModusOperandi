@@ -1,5 +1,6 @@
 package com.lipsum.modusoperandi.ui;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,10 +19,11 @@ public abstract class Menu {
         stage.dispose();
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         if (mainMenuBackground != null) {
             SpriteBatch batch = new SpriteBatch();
             batch.begin();
+            batch.setProjectionMatrix(camera.combined);
             batch.draw(mainMenuBackground, 0, 0);
             batch.end();
         }

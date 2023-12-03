@@ -3,6 +3,8 @@ package com.lipsum.modusoperandi;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lipsum.modusoperandi.event.EventQueue;
 import com.lipsum.modusoperandi.ui.IngameOverlayMenu;
 import com.lipsum.modusoperandi.ui.MainMenu;
@@ -12,6 +14,7 @@ import com.lipsum.modusoperandi.ui.OptionsMenu;
 public class Game extends ApplicationAdapter {
 
 	private final MenuManager menuManager;
+	private OrthographicCamera camera;
 
 	public Game() {
 		super();
@@ -24,6 +27,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		menuManager.switchMenu(MenuManager.MAIN_MENU);
+		camera = new OrthographicCamera(1920, 1080);
 	}
 
 	@Override
@@ -39,8 +43,8 @@ public class Game extends ApplicationAdapter {
 		// Rendering
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
-		WorldManager.getInstance().render();
-		menuManager.draw();
+		WorldManager.getInstance().render(camera);
+		menuManager.draw(camera);
 	}
 	
 	@Override

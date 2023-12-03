@@ -2,6 +2,9 @@ package com.lipsum.modusoperandi.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lipsum.modusoperandi.event.Event;
 import com.lipsum.modusoperandi.event.EventConsumer;
 import com.lipsum.modusoperandi.event.EventQueue;
@@ -69,9 +72,9 @@ public class MenuManager {
         registeredMenus.get(currentMenuId).create();
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         if (currentMenuId < 0) return;
-        registeredMenus.get(currentMenuId).draw();
+        registeredMenus.get(currentMenuId).draw(camera);
     }
 
     public void onResize(int width, int height) {
